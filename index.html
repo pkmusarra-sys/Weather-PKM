@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Only load code and data from the services this app actually uses. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https://api.weather.gov https://server.arcgisonline.com https://mesonet.agron.iastate.edu; connect-src 'self' https://api.weather.gov https://geocoding-api.open-meteo.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>NWS Weather</title>
+  <meta name="description" content="Forecasts, alerts, radar and forecast discussions from the National Weather Service.">
+  <meta name="theme-color" content="#0f3b66">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" integrity="sha384-c6Rcwz4e4CITMbu/NBmnNS8yN2sC3cUElMEMfP3vqqKFp7GOYaaBBCqmaWBjmkjb" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <button id="loc-btn" class="loc" aria-label="Change location">
+      <span id="loc-name">Choose a location</span>
+      <svg viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><path d="M5 7l5 6 5-6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+    </button>
+    <div class="actions">
+      <button id="gps-btn" class="icon-btn" aria-label="Use my location" title="Use my location">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+      <button id="refresh-btn" class="icon-btn" aria-label="Refresh" title="Refresh">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <dialog id="search-dlg">
+    <form id="search-form" method="dialog">
+      <label for="search-input">City, ZIP, or lat,lon (US only)</label>
+      <div class="search-row">
+        <input id="search-input" type="search" autocomplete="off" placeholder="e.g. Boulder, CO">
+        <button type="submit">Search</button>
+      </div>
+    </form>
+    <ul id="search-results" class="results"></ul>
+    <h3 class="saved-h">Saved</h3>
+    <ul id="saved-list" class="results"></ul>
+    <button id="search-close" class="link-btn">Close</button>
+  </dialog>
+
+  <main id="main">
+    <p id="status" class="status" role="status"></p>
+
+    <section id="alerts" hidden></section>
+
+    <section id="current" class="card" hidden></section>
+
+    <section class="card" id="hourly-card" hidden>
+      <h2>Hourly</h2>
+      <div id="hourly" class="hourly"></div>
+    </section>
+
+    <section class="card" id="daily-card" hidden>
+      <h2>7-day forecast</h2>
+      <div id="daily"></div>
+    </section>
+
+    <section class="card" id="radar-card" hidden>
+      <div class="card-head">
+        <h2>Radar</h2>
+        <div class="radar-ctrl">
+          <span id="radar-time" class="muted"></span>
+          <button id="radar-play" class="small-btn" aria-label="Pause animation">Pause</button>
+        </div>
+      </div>
+      <div id="radar-map"></div>
+      <p class="muted small"><a id="radar-link" target="_blank" rel="noopener">Open NWS radar loop</a></p>
+    </section>
+
+    <section class="card" id="afd-card" hidden>
+      <details id="afd">
+        <summary><h2>Forecast discussion</h2><span id="afd-meta" class="muted"></span></summary>
+        <pre id="afd-text"></pre>
+      </details>
+    </section>
+
+    <footer class="foot muted small">
+      Data: <a href="https://www.weather.gov" target="_blank" rel="noopener">National Weather Service</a>.
+      Radar tiles: NWS NEXRAD via Iowa Environmental Mesonet.
+      <span id="updated"></span>
+    </footer>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" integrity="sha384-NElt3Op+9NBMCYaef5HxeJmU4Xeard/Lku8ek6hoPTvYkQPh3zLIrJP7KiRocsxO" crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+</body>
+</html>

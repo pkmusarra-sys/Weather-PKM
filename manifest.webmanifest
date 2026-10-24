@@ -1,0 +1,13 @@
+{
+  "name": "NWS Weather",
+  "short_name": "Weather",
+  "description": "Forecasts, alerts, radar and discussions from the National Weather Service.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f3b66",
+  "theme_color": "#0f3b66",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
